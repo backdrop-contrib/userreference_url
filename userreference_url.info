@@ -1,0 +1,5 @@
+name = User Reference URL Widget
+description = Adds an additional widget to the User Reference field that prepopulates a reference by the URL.
+dependencies[] = user_reference
+package = Fields
+core = 7.x
