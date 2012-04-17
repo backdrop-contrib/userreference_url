@@ -150,10 +150,10 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
       $link['title'] = t($link_settings['title']);
       $link['query'] = array();
 
-      // Get the first "preferred" path for creating Node Reference links.
+      // Get the first "preferred" path for creating User Reference links.
       $link_urls = variable_get('userreference_url_paths', array('node/add/%type/%uid'));
 
-      // Basic wildcard replacement: %type and %nid.
+      // Basic wildcard replacement: %type and %uid.
       $link_url = $link_urls[0];
       $link_url = str_replace('%type', str_replace('_', '-', $instance['bundle']), $link_url);
       if ($alt_format) {
@@ -183,7 +183,7 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
         // First try to get context based on the current page URL.
         $group_entity = og_get_context_by_url();
 
-        // Otherwise try getting the context based on the node being referenced.
+        // Otherwise try getting the context based on the user being referenced.
         if (!$group_entity) {
           $group_entity = og_context();
         }
@@ -209,7 +209,7 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
  * @param object $account
  *   The user object that will be referenced.
  * @param string $field_name
- *   The name of the Node Reference field.
+ *   The name of the User Reference field.
  * @param srting $type_name
  *   The name of node type that contains the User Reference field.
  * @param array $attributes
@@ -276,7 +276,7 @@ function userreference_url_field_widget_settings_form($field, $instance) {
         'leave_blank' => t('Leave the field blank'),
       ),
       '#default_value' => isset($settings['fallback']) ? $settings['fallback'] : 'autocomplete',
-      '#description' => t('If no content is referenced in the URL, determine how the form should be handled.'),
+      '#description' => t('If user is not referenced in the URL, determine how the form should be handled.'),
       '#required' => TRUE,
       '#element_validate' => array('userreference_url_fallback_validate'),
       '#weight' => -11,
@@ -308,8 +308,8 @@ function userreference_url_field_widget_settings_form($field, $instance) {
       '#tree' => TRUE,
       '#type' => 'fieldset',
       '#title' => t('Referenceable user links'),
-      '#element_validate' => array('userreference_url_node_link_validate'),
-      '#description' => t('These settings will automatically make a link on nodes that can be referenced. Clicking the link will take the user to the new node form and prepopulate the value of this node reference field.'),
+      '#element_validate' => array('userreference_url_user_link_validate'),
+      '#description' => t('These settings will automatically make a link on user that can be referenced. Clicking the link will take the user to the new node form and prepopulate the value of this user reference field.'),
     );
     $form['user_link']['full'] = array(
       '#type' => 'checkbox',
@@ -363,7 +363,7 @@ function userreference_url_fallback_validate($element, &$form_state) {
 /**
  * Element validation function that makes title required when creating a link.
  */
-function userreference_url_node_link_validate($element, &$form_state, $form) {
+function userreference_url_user_link_validate($element, &$form_state, $form) {
   $link_settings = $form_state['values']['instance']['widget']['settings']['user_link'];
   if ($link_settings['full'] && empty($link_settings['title'])) {
     form_error($element['title'], t('A link title must be specified if creating links on referenceable content.'));
@@ -379,7 +379,7 @@ function userreference_url_field_widget_form(&$form, &$form_state, $field, $inst
   $referenced_uid = NULL;
   $fallback = $instance['widget']['settings']['fallback'];
 
-  // Check for an existing NID.
+  // Check for an existing UID.
   if (isset($items[$delta]['uid']) && is_numeric($items[$delta]['uid'])) {
     $referenced_uid = $items[$delta]['uid'];
   }
@@ -482,7 +482,7 @@ function _userreference_url_process($element, $form_state, $form) {
 }
 
 /**
- * Check the current URL and pull the referenced node from it.
+ * Check the current URL and pull the referenced user from it.
  */
 function userreference_url_get_uid($field_name) {
   $add_urls = variable_get('userreference_url_paths', array('node/add/%type/%uid'));
@@ -492,11 +492,11 @@ function userreference_url_get_uid($field_name) {
   foreach ($add_urls as $url) {
     $args = explode('/', $url);
     foreach ($args as $part => $arg) {
-      // Set the target NID if matching on this part of the URL.
+      // Set the target UID if matching on this part of the URL.
       if ($arg == '%uid') {
         $referenced_uid = arg($part);
       }
-      // Set the target NID based on the field name, allowing for multiple
+      // Set the target UID based on the field name, allowing for multiple
       // references in the same URL.
       elseif ($arg == '%' . $field_name_url) {
         $referenced_uid = arg($part);

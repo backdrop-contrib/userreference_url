@@ -1,7 +1,7 @@
 
 The User Reference URL Widget module adds a new widget to the User Reference
-CCK field type. It auto-populates a user reference field with a value from the
-URL, and does not allow this value to be changed once set.
+field type. It auto-populates a user reference field with a value from the URL,
+and does not allow this value to be changed once set.
 
 
 Dependencies
