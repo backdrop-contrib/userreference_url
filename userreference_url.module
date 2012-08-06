@@ -40,7 +40,7 @@ function userreference_url_field_widget_info() {
       'field types' => array('user_reference'),
       'settings' => array(
         'fallback' => 'select',
-        'node_link' => array(),
+        'user_link' => array(),
         'edit_fallback' => 0,
         'autocomplete_match' => 'contains',
       ),
