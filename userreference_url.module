@@ -428,10 +428,16 @@ function userreference_url_field_widget_form(&$form, &$form_state, $field, $inst
     }
     // Fallback to select list.
     elseif ($fallback == 'select') {
+      $options = user_reference_options_list($field);
+      if (module_exists('views') && !empty($field['settings']['view']['view_name'])) {
+        foreach ($options as $key => $value) {
+          $options[$key] = strip_tags($value);
+        }
+      }
       $element += array(
         '#type' => 'select',
         '#default_value' => isset($items[$delta]['uid']) ? $items[$delta]['uid'] : NULL,
-        '#options' => array('' => t('- None -')) + user_reference_options_list($field),
+        '#options' => array('' => t('- None -')) + $options,
       );
     }
     // Fallback to autocomplete.
