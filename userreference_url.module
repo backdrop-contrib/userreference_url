@@ -88,7 +88,7 @@ function userreference_url_build_all_links($account, $view_mode) {
     $alt_format = count($instances_group) > 1;
     foreach ($instances_group as $field_name => $instance) {
       $link_settings = $instance['widget']['settings']['user_link'];
-      if (isset($link_settings[$view_mode])) {
+      if (!empty($link_settings[$view_mode])) {
         if ($link = userreference_url_build_link($account, $instance, $view_mode, $alt_format)) {
           $links[$target_type . '_' . $field_name] = $link;
         }
