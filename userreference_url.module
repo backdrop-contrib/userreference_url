@@ -181,7 +181,7 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
       }
       if (module_exists('og_context')) {
         // First try to get context based on the current page URL.
-        $group_entity = og_get_context_by_url();
+        $group_entity = og_context_handler_url();
 
         // Otherwise try getting the context based on the user being referenced.
         if (!$group_entity) {
@@ -189,7 +189,7 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
         }
 
         if ($group_entity) {
-          $link['query']['gids'] = array($group_entity->gid);
+          $link['query']['gids'] = array($group_entity['gid']);
         }
       }
     }
