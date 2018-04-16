@@ -163,7 +163,7 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
       $link['query'] = array();
 
       // Get the first "preferred" path for creating User Reference links.
-      $link_urls = config_get('userreference_url.settings', 'userreference_url_paths');
+      $link_urls = config_get('userreference_url.settings', 'url_paths');
 
       // Basic wildcard replacement: %type and %uid.
       $link_url = $link_urls[0];
@@ -188,7 +188,7 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
           $link['query']['destination'] = isset($_REQUEST['destination']) ? $_REQUEST['destination'] : $_GET['q'];
         }
         elseif ($link_settings['destination'] == 'user') {
-          $link['query']['destination'] = drupal_get_path_alias('user/' . $account->uid);
+          $link['query']['destination'] = backdrop_get_path_alias('user/' . $account->uid);
         }
       }
       if (module_exists('og_context')) {
@@ -434,8 +434,8 @@ function userreference_url_field_widget_form(&$form, &$form_state, $field, $inst
     // Check for the form_build_id to prevent throwing a page not found on
     // manual builds. See http://drupal.org/node/397606.
     if ($fallback == 'page_not_found') {
-      drupal_set_message(t('To create a new @type, a referenced piece of content must be specified in the link you followed.', array('@type' => $field['bundles']['node'][0])), 'error');
-      drupal_not_found();
+      backdrop_set_message(t('To create a new @type, a referenced piece of content must be specified in the link you followed.', array('@type' => $field['bundles']['node'][0])), 'error');
+      backdrop_not_found();
       exit();
     }
     // Fallback to select list.
@@ -551,7 +551,7 @@ function userreference_url_get_uid($field_name) {
 function theme_userreference_url($variables) {
   $element = $variables['element'];
   $output = $element['#display_title'];
-  $output .= drupal_render_children($element);
+  $output .= backdrop_render_children($element);
   return $output;
 }
 
