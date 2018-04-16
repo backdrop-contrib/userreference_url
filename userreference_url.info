@@ -3,3 +3,4 @@ description = Adds an additional widget to the User Reference field that prepopu
 dependencies[] = user_reference
 package = Fields
 backdrop = 1.x
+type = module
