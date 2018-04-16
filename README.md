@@ -94,5 +94,5 @@ Credits
 
 Ported to Backdrop by kleomash
 
-Thanks to Nate Haug (https://www.drupal.org/user/35821) for great module nodereference_url
-Thanks to Square63 (http://drupal.org/node/1542938/).
+* Thanks to Nate Haug (https://www.drupal.org/user/35821) for great module nodereference_url
+* Thanks to Square63 (http://drupal.org/node/1542938/).
