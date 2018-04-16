@@ -559,10 +559,10 @@ function theme_userreference_url($variables) {
  * Move settings from variables to config
  */
 
-function userreference_url_update_1000 {
+function userreference_url_update_1000() {
   $config = config('nodereference_url.settings');
 
-  $config->set('url_paths', update_variable_get('url_paths', 'node/add/%type/%uid');
+  $config->set('url_paths', update_variable_get('url_paths', 'node/add/%type/%uid'));
   $config->save();
 
   update_variable_del('url_paths');
