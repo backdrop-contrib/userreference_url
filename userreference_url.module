@@ -503,7 +503,7 @@ function _userreference_url_process($element, $form_state, $form) {
  * Check the current URL and pull the referenced user from it.
  */
 function userreference_url_get_uid($field_name) {
-  $add_urls = config_get('userreference_url.settings', 'userreference_url_paths');
+  $add_urls = config_get('userreference_url.settings', 'url_paths');
   $field_name_url = preg_replace('/^field_/', '', $field_name);
   $referenced_uid = NULL;
 
