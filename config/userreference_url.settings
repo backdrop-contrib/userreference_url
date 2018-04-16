@@ -1,0 +1,4 @@
+{
+    "_config_name": "userreference_url.settings",
+    "url_paths": ["node/add/%type/%uid"]
+}

@@ -6,6 +6,18 @@
  */
 
 /**
+ * Implements hook_config_info().
+ */
+function userreference_url_config_info() {
+ $prefixes['userreference_url.settings'] = array(
+   'label' => t('User Reference URL Widget Settings'),
+   'group' => t('Configuration'),
+ );
+ return $prefixes;
+}
+
+
+/**
  * Implements hook_theme().
  */
 function userreference_url_theme() {
@@ -151,7 +163,7 @@ function userreference_url_build_link($account, $instance, $view_mode = 'full', 
       $link['query'] = array();
 
       // Get the first "preferred" path for creating User Reference links.
-      $link_urls = variable_get('userreference_url_paths', array('node/add/%type/%uid'));
+      $link_urls = config_get('userreference_url.settings', 'userreference_url_paths');
 
       // Basic wildcard replacement: %type and %uid.
       $link_url = $link_urls[0];
@@ -491,7 +503,7 @@ function _userreference_url_process($element, $form_state, $form) {
  * Check the current URL and pull the referenced user from it.
  */
 function userreference_url_get_uid($field_name) {
-  $add_urls = variable_get('userreference_url_paths', array('node/add/%type/%uid'));
+  $add_urls = config_get('userreference_url.settings', 'userreference_url_paths');
   $field_name_url = preg_replace('/^field_/', '', $field_name);
   $referenced_uid = NULL;
 
@@ -541,4 +553,17 @@ function theme_userreference_url($variables) {
   $output = $element['#display_title'];
   $output .= drupal_render_children($element);
   return $output;
+}
+
+/**
+ * Move settings from variables to config
+ */
+
+function userreference_url_update_1000 {
+  $config = config('nodereference_url.settings');
+
+  $config->set('url_paths', update_variable_get('url_paths', 'node/add/%type/%uid');
+  $config->save();
+
+  update_variable_del('url_paths');
 }
